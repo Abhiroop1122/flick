@@ -1,0 +1,75 @@
+name: CI
+
+# Tests run on every push and pull request. The apps are built when a version tag
+# (v2.2.2, …) is pushed, or by hand from the Actions tab.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (Go + end-to-end)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version-file: desktop/go.mod }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - run: go test ./...
+        working-directory: desktop
+      - run: ./scripts/e2e.sh
+
+  android:
+    name: Build Android app
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - name: Signing key (optional)
+        if: env.HAS_KEY == 'true'
+        working-directory: android
+        run: |
+          mkdir -p keystore
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > keystore/flick-release.jks
+          printf "storeFile=keystore/flick-release.jks\nstorePassword=%s\nkeyAlias=flick\nkeyPassword=%s\n" \
+            "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" > keystore.properties
+      - run: ./gradlew :app:assembleRelease
+        working-directory: android
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Flick-android
+          path: android/app/build/outputs/apk/release/app-release.apk
+
+  desktop:
+    name: Build macOS + Windows apps
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    runs-on: macos-latest   # has lipo + codesign; also cross-builds Flick.exe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version-file: desktop/go.mod }
+      - run: ./build.sh
+        working-directory: desktop
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Flick-desktop
+          path: |
+            desktop/dist/Flick.exe
+            desktop/dist/Flick-mac.zip

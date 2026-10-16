@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Troubleshooting guide
+    url: https://github.com/Abhiroop1122/flick/blob/main/docs/TROUBLESHOOTING.md
+    about: Fixes for the most common problems (computer not showing up, clipboard, installing).
+  - name: Report a security problem
+    url: https://github.com/Abhiroop1122/flick/security/advisories/new
+    about: Please report vulnerabilities privately.

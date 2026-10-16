@@ -1,0 +1,25 @@
+name: Feature request
+description: An idea to make Flick better.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do?
+      description: Describe the problem or situation, not just the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How could Flick help?
+      description: Your idea for how it could work.
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platforms
+      multiple: true
+      options:
+        - Android
+        - macOS
+        - Windows

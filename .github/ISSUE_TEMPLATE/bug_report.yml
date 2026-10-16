@@ -1,0 +1,53 @@
+name: Bug report
+description: Something doesn't work as it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please check the [troubleshooting guide](https://github.com/Abhiroop1122/flick/blob/main/docs/TROUBLESHOOTING.md) first.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of Flick?
+      multiple: true
+      options:
+        - Sending from the phone
+        - Sending from the computer
+        - Clipboard
+        - Connecting / staying connected
+        - Installing / starting
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: phone
+    attributes:
+      label: Phone
+      description: Make and model, Android version, Flick version (shown at the bottom of the app).
+      placeholder: "Pixel 9, Android 16, Flick 2.2.2"
+    validations:
+      required: true
+  - type: input
+    id: computer
+    attributes:
+      label: Computer
+      description: Mac or Windows version, and the Flick version.
+      placeholder: "MacBook Air M2, macOS 15, Flick 2.2.0"
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Crash details or logs
+      description: |
+        If the phone showed "Flick stopped unexpectedly", paste the copied details.
+        Computer log: `~/Library/Application Support/Flick/flick.log` (Mac) or `%APPDATA%\Flick\flick.log` (Windows).
+      render: text

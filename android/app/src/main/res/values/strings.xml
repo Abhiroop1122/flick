@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Flick</string>
+    <string name="share_label">Flick</string>
+    <string name="channel_transfers">Transfers</string>
+    <string name="channel_transfers_desc">Progress of files being sent to your computers</string>
+    <string name="clip_watch_label">Flick — send what I copy</string>
+    <string name="clip_watch_description">Lets Flick notice the moment you copy something, so it can be pasted on your connected computer. Flick only looks for taps on Copy and “Copied” messages; it doesn’t read, keep or send anything else on your screen, and never shares passwords.</string>
+    <string name="clip_tile_label">Send clipboard</string>
+</resources>

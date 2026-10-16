@@ -1,0 +1,24 @@
+<resources>
+    <style name="Theme.Flick" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/flick_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Transparent window: the share sheet draws its own bottom sheet and scrim. -->
+    <style name="Theme.Flick.Sheet" parent="Theme.Flick">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <!-- Fully invisible: only exists to read the clipboard for a moment. -->
+    <style name="Theme.Flick.Invisible" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowNoDisplay">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+</resources>

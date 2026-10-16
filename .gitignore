@@ -1,0 +1,5 @@
+.DS_Store
+
+# App files: publish them as GitHub Release assets, not in the code history.
+releases/
+archive/
